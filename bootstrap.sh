@@ -12,16 +12,23 @@ apt-get update
 apt-get install -y ocaml ocaml-native-compilers camlp4 camlp4-extra opam git libssl-dev emacs vim nginx tuareg-mode auto-complete-el aspcud
 sed -i -e 's,/usr/share/nginx/html,/home/vagrant/.opam/doc/doc,g' /etc/nginx/sites-available/default
 
-cat > /etc/motd.tail <<'EOF'
-               ,,__
-     ..  ..   / o._)   ___   ____                _ 
-    /--'/--\  \-'||   / _ \ / ___|__ _ _ __ ___ | |
-   /        \_/ / |  | | | | |   / _` | '_ ` _ \| |
- .'\  \__\  __.'.'   | |_| | |__| (_| | | | | | | |
-   )\ |  )\ |         \___/ \____\__,_|_| |_| |_|_|
-  // \\ // \\
- ||_  \\|_  \\_    -- two humps are better than one
- '--' '--'' '--'    
+color () {
+  if [ -n "$NOCOLOR" ]; then
+    sed 's/%.//g'
+  else
+    sed 's/%%//g; s/%y/[33;1m/g; s/%o/[0;33m/g; s/%b/[m/g'
+  fi
+}
+color > /etc/motd.tail <<'EOF'
+%y     %%  %%  %%  %%    ,,__
+%y     %%..%%  %%..%%   / o._)%% %y  ___   ____                _
+%y    /%o--%y'/%o--%y\  \-'|%o|  %y / _ \ / ___|__ _ _ __ ___ | |
+%y   / %%  %%  %%  %% \_/ / %o|  %y| | | | |   / _` | '_ ` _ \| |
+%y .'\ %% \%o__%y\  __.'%o.'%%   %y| |_| | |__| (_| | | | | | | |
+%y   %o)%y\ |  %o)%y\ |%%        %y \___/ \____\__,_|_| |_| |_|_|
+%y  %o//%y \\ %o//%y \\
+%y %o||_%y  \\%o|_%y  \\_%%    %o-- two humps are better than one
+%y %o'--'%y '--'%o'%y '--'%b
 
 Run 'utop' to get started with an interactive console.
 Documentation is available at http://localhost:8000/
