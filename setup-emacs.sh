@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 set -ex
 
+. /vagrant/local-settings
+eval $(opam config env)
+
 export OPAMYES=1
 opam install ocp-index ocp-indent
-git clone https://github.com/samoht/ocaml-emacs-settings.git
-ln -s ocaml-emacs-settings/.emacs
-ln -s ocaml-emacs-settings/.emacs.d/
+
+ln -s /vagrant/ocaml-emacs-settings/.emacs ~
+ln -s /vagrant/ocaml-emacs-settings/.emacs.d/ ~

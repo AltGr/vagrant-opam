@@ -1,9 +1,21 @@
 #!/usr/bin/env bash
 
+. /vagrant/local-settings
+
 dd if=/dev/zero of=/swapfile bs=1024 count=1048576
 /sbin/mkswap /swapfile
 /sbin/swapon /swapfile
 echo '/swapfile swap swap defaults 0 0' >> /etc/fstab
+
+for v in LANGUAGE LANG LC_ALL; do
+    $v=$LOCALE; export $v
+    echo "$v=${$v}; export $v" >>/etc/profile.d/set_locale
+done
+
+if [ "$LOCALE" != "C" ]; then
+    locale-gen en_US.UTF-8
+    dpkg-reconfigure locales
+fi
 
 apt-get update
 apt-get install -y python-software-properties build-essential m4

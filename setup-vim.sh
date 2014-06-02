@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -ex
 
+. /vagrant/local-settings
+eval $(opam config env)
+
 mkdir -p ~/.vim/autoload ~/.vim/bundle;
 curl -so ~/.vim/autoload/pathogen.vim https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim
 cd ~/.vim/bundle

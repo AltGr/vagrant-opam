@@ -1,11 +1,9 @@
 #!/usr/bin/env bash
 set -e
-PACKAGES="ssl core_extended async js_of_ocaml core_bench cohttp cryptokit menhir"
 
-export OPAMYES=1
-export OPAMJOBS=2
-opam install opam-doc merlin utop cohttp js_of_ocaml oasis
-opam install ${PACKAGES}
+. /vagrant/local-settings
+
+eval $(opam config env)
 
 # Generate OPAM doc in ~/.opam/doc/doc
 eval `opam config env`
