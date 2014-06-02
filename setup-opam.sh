@@ -5,7 +5,7 @@ set -ex
 opam init -a -y
 
 # Configure an .ocamlinit
-cat > ~/.ocamlinit <<EOF
+cat >> ~/.ocamlinit <<EOF
 #use "topfind";;
 #thread;;
 #camlp4o;;
