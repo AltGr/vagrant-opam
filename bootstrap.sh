@@ -1,19 +1,26 @@
 #!/usr/bin/env bash
+set -ue
 
 . /vagrant/local-settings
 
-dd if=/dev/zero of=/swapfile bs=1024 count=1048576
-/sbin/mkswap /swapfile
-/sbin/swapon /swapfile
-echo '/swapfile swap swap defaults 0 0' >> /etc/fstab
+if [ ! -e "/swapfile" ]; then
+    dd if=/dev/zero of=/swapfile bs=1024 count=1048576
+    /sbin/mkswap /swapfile
+    /sbin/swapon /swapfile
+    echo '/swapfile swap swap defaults 0 0' >> /etc/fstab
+fi
 
 for v in LANGUAGE LANG LC_ALL; do
-    $v=$LOCALE; export $v
-    echo "$v=${$v}; export $v" >>/etc/profile.d/set_locale
+    export $v=$LOCALE
 done
+if ! grep LANGUAGE /etc/profile.d/set_locale; then
+    echo "export LANGUAGE=$LANGUAGE" >>/etc/profile.d/set_locale
+    echo "export LANG=$LANG" >>/etc/profile.d/set_locale
+    echo "export LC_ALL=$LC_ALL" >>/etc/profile.d/set_locale
+fi
 
 if [ "$LOCALE" != "C" ]; then
-    locale-gen en_US.UTF-8
+    locale-gen "$LOCALE"
     dpkg-reconfigure locales
 fi
 

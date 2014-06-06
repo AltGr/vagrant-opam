@@ -51,7 +51,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # Use VBoxManage to customize the VM. For example to change memory:
     vb.customize ["modifyvm", :id, "--memory", "1024"]
   end
-
+  config.vm.provider "docker" do |d|
+    d.image = "ubuntu:trusty"
+  end
   # View the documentation for the provider you're using for more
   # information on available options.
 
@@ -79,6 +81,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # end
 
   config.vm.provision :shell, :path => "bootstrap.sh"
+
+  config.vm.synced_folder "opam-repository/", "/home/vagrant/opam-repository"
+
   config.vm.provision :shell, privileged: false, :path => "setup-opam.sh"
   config.vm.provision :shell, privileged: false, :path => "setup-opamdoc.sh"
   config.vm.provision :shell, privileged: false, :path => "setup-vim.sh"
